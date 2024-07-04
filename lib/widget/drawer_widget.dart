@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:faveo/pages/profile_screen.dart';
 import 'package:faveo/pages/ticket/create_ticket_screen.dart';
 import 'package:faveo/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class DrawerWidget extends StatelessWidget {
             ),
             onTap: () {
                Navigator.of(context).push(MaterialPageRoute(
-                 builder: (BuildContext context) =>  const CreateTicketScreen()));
+                 builder: (BuildContext context) => const  ProfileScreen()));
             },
           )),
           ListTile(
@@ -37,7 +38,8 @@ class DrawerWidget extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    
+                     Navigator.of(context).push(MaterialPageRoute(
+                 builder: (BuildContext context) =>  const CreateTicketScreen()));
                   },
                   child: const Text(
                     "Create Ticket",

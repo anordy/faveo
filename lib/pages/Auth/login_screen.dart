@@ -1,4 +1,5 @@
 import 'package:faveo/pages/Auth/signup_screen.dart';
+import 'package:faveo/pages/home_page.dart';
 import 'package:faveo/pages/ticket/create_ticket_screen.dart';
 import 'package:faveo/utils/colors.dart';
 import 'package:faveo/utils/utils.dart';
@@ -225,7 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const CreateTicketScreen()));
+                                    const HomePage()));
                       },
                       child: const Text(
                         "Sign in",

@@ -1,3 +1,4 @@
+import 'package:faveo/bloc/auth/login/cubit/login_cubit.dart';
 import 'package:faveo/pages/Auth/signup_screen.dart';
 import 'package:faveo/pages/home_page.dart';
 import 'package:faveo/pages/ticket/create_ticket_screen.dart';
@@ -5,7 +6,9 @@ import 'package:faveo/utils/colors.dart';
 import 'package:faveo/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -31,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obsecureText = true;
 
   final Map<String, dynamic> _authData = {
-    'phone_number': '',
+    'username': '',
     'password': '',
   };
 
@@ -113,7 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         onChanged: (value) {
-                          print("Email: " + _emailController.text);
+                          _authData['username'] = _emailController.text;
+                          print(_authData['username']);
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -215,27 +219,59 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 20.0,
                 ),
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: MaterialButton(
-                      height: 50,
-                      minWidth: Utils.displayWidth(context),
-                      color: AppColor.button,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const HomePage()));
-                      },
-                      child: const Text(
-                        "Sign in",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )),
+                BlocConsumer<LoginCubit, LoginState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(loading: () {
+                      return Loader(
+                        size: 50,
+                      );
+                    }, orElse: () {
+                      return ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: MaterialButton(
+                            height: 50,
+                            minWidth: Utils.displayWidth(context),
+                            color: AppColor.button,
+                            onPressed: () {
+                               if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            BlocProvider.of<LoginCubit>(context)
+                                .login(_authData);
+                          }
+                            },
+                            child: const Text(
+                              "Sign in",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ));
+
+        
+                    });
+                  },
+                  listener: (context, state) {
+                    state.maybeWhen(
+                        success: (user) {
+                          // SessionTimer.startTimer(context);
+
+                          const HomePage().launch(context);
+                        },
+                        failure: (errorMessage) {
+                          Fluttertoast.showToast(
+                            msg: errorMessage,
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
+                          );
+                        },
+                        orElse: () {});
+                  },
+                ),
                 const SizedBox(
                   height: 10.0,
                 ),

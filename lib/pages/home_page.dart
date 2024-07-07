@@ -42,7 +42,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     return DefaultTabController(
       length: list.length,
       child: Scaffold(
-         appBar: AppBar(title: Text("My Tickets",style: TextStyle(fontSize: 18,fontWeight: FontWeight.normal),),),
+        backgroundColor: Colors.white,
+         appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text("My Tickets",style: TextStyle(fontSize: 18,fontWeight: FontWeight.normal),),),
       drawer: DrawerWidget(),
         body: SafeArea(
           child: CustomScrollView(

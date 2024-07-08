@@ -16,8 +16,6 @@ class AuthRepository {
         options: Options(headers: {'Accept': 'application/json'}),
       );
 
-  
-
       // save the user data to shared preferences
       final prefs = await SharedPreferences.getInstance();
       final user = json.encode({
@@ -25,6 +23,7 @@ class AuthRepository {
         'firstname': response['user_id']['first_name'],
         'lastname': response['user_id']['last_name'],
         'email': response['user_id']['email'],
+        'profile': response['user_id']['profile_pic'],
         'phone_number': response['user_id']['phone_number'],
         'token': response['token'],
       });
@@ -34,10 +33,13 @@ class AuthRepository {
 
       return user;
     } on DioError catch (e) {
+     
       if (e.response != null) {
         throw e.response!.data['message'];
       } else {
         var error = DioException.fromDioError(e);
+         print("errror ===========");
+      print(e);
         throw error.errorMessage;
       }
     }

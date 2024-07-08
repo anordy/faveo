@@ -1,11 +1,37 @@
+import 'dart:convert';
 import 'dart:ui';
 
+import 'package:faveo/bloc/auth/cubit/auth_cubit.dart';
+import 'package:faveo/pages/Auth/login_screen.dart';
 import 'package:faveo/pages/profile_screen.dart';
 import 'package:faveo/pages/ticket/create_ticket_screen.dart';
 import 'package:faveo/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nb_utils/nb_utils.dart';
 
-class DrawerWidget extends StatelessWidget {
+class DrawerWidget extends StatefulWidget {
+  @override
+  State<DrawerWidget> createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
+   String? accessToken;
+  String? username;
+  bool? isAuth;
+  Map<dynamic, dynamic> user = {};
+  void fetchUserDetails() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userData = json.decode(prefs.getString('user')!);
+    setState(() {
+      user = userData;
+    });
+  }
+
+  void initState() {
+    super.initState();
+    fetchUserDetails();
+  }
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -13,19 +39,33 @@ class DrawerWidget extends StatelessWidget {
         children: [
           DrawerHeader(
               child: InkWell(
-            child: const ListTile(
-              leading: CircleAvatar(
+            child:  ListTile(
+              leading:  CircleAvatar(
                 radius: 31,
                 backgroundColor: Colors.grey,
                 child: CircleAvatar(
                     radius: 30,
-                    backgroundImage: AssetImage("assets/icons/anordy.jpeg")),
+                    backgroundImage: NetworkImage('${user['profile']}')),
               ),
-              title: Text(
-                "Anord John",
-                style: TextStyle(fontSize: 18),
-              ),
-              subtitle: Text("Admin"),
+              title: RichText(
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis, // Optional: Show ellipsis (...) if text overflows
+  text: TextSpan(
+    style: const TextStyle(fontSize: 18, color: Colors.black), // Default text style
+    children: [
+      TextSpan(
+        text: '${user['firstname']} ',
+        style: const TextStyle(fontWeight: FontWeight.bold), // Style for firstname
+      ),
+      TextSpan(
+        text: user['lastname'],
+        style: const TextStyle(fontWeight: FontWeight.bold), // Style for lastname
+      ),
+    ],
+  ),
+),
+
+  subtitle: Text(user['username'],style: const TextStyle(fontStyle: FontStyle.italic)),
             ),
             onTap: () {
                Navigator.of(context).push(MaterialPageRoute(
@@ -104,17 +144,23 @@ class DrawerWidget extends StatelessWidget {
               child: Text("35",style: TextStyle(color: Colors.white),),
             ),)
           ),
-           const ListTile(
-            leading: Icon(Icons.delete),
-            title: Text(
-              "Trash",
-              style: TextStyle(fontSize: 16),
-            ),
-            trailing:  Card(color: Colors.green, child: Padding(
-              padding: EdgeInsets.all(5.0),
-              child: Text("13",style: TextStyle(color: Colors.white),),
-            ),)
-          ),
+           InkWell(
+            onTap: () {
+              BlocProvider.of<AuthCubit>(context).logout();
+                    const LoginScreen().launch(context);
+            },
+             child: const ListTile(
+              leading: Icon(Icons.delete),
+              title: Text(
+                "Trash",
+                style: TextStyle(fontSize: 16),
+              ),
+              trailing:  Card(color: Colors.green, child: Padding(
+                padding: EdgeInsets.all(5.0),
+                child: Text("13",style: TextStyle(color: Colors.white),),
+              ),)
+                       ),
+           ),
            const ListTile(
             leading: Icon(Icons.picture_as_pdf_outlined),
             title: Text(

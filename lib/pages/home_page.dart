@@ -1,9 +1,12 @@
 import 'package:faveo/card/ticket_card.dart';
+import 'package:faveo/cubits/tickets/ticket_list_cubit.dart';
 import 'package:faveo/utils/colors.dart';
 import 'package:faveo/utils/utils.dart';
 import 'package:faveo/widget/drawer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,7 +15,9 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin implements TickerProvider {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin
+    implements TickerProvider {
   ScrollController _ordersController = new ScrollController();
   late TabController _tabController;
   List<Widget> list = [
@@ -33,8 +38,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-        _tabController = TabController(length: list.length, vsync: this);
-
+    _tabController = TabController(length: list.length, vsync: this);
   }
 
   @override
@@ -43,10 +47,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       length: list.length,
       child: Scaffold(
         backgroundColor: Colors.white,
-         appBar: AppBar(
+        appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Text("My Tickets",style: TextStyle(fontSize: 18,fontWeight: FontWeight.normal),),),
-      drawer: DrawerWidget(),
+          title: Text(
+            "My Tickets",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+          ),
+        ),
+        drawer: DrawerWidget(),
         body: SafeArea(
           child: CustomScrollView(
             slivers: [
@@ -56,16 +64,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 10.0, right: 10.0, top: 10.0,bottom: 10),
+                        left: 10.0, right: 10.0, top: 10.0, bottom: 10),
                     child: Column(
                       children: [
-                        
                         Container(
                           height: 50,
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              border:
-                                  Border.all(color: Colors.black),
+                              border: Border.all(color: Colors.black),
                               borderRadius: BorderRadius.circular(10)),
                           child: Padding(
                             padding: const EdgeInsets.all(0.0),
@@ -110,21 +116,50 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
 // normal ticket
   Widget normalTicket() {
-    return Container(
-        height: Utils.displayHeight(context),
-        // color: Colors.green,
-        child: ListView.builder(
-            //  controller: _ordersController,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemCount: 6,
-            itemBuilder: (context, index) {
-              return Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15.0, right: 15.0, bottom: 0.0, top: 5),
-                  child: InkWell(onTap: () {}, child: const TicketCard()));
-            }));
+   return BlocBuilder<TicketListCubit, TicketListState>(
+      bloc: TicketListCubit()..fetchTicketLists(),
+      builder: (context, state) {
+        return state.maybeWhen(
+          orElse: () {
+            return Loader();
+          },
+          success: (tickets) {
+            return Container(
+                height: Utils.displayHeight(context),
+                child: ListView.builder(
+                    //  controller: _ordersController,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: 6,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15.0, right: 15.0, bottom: 0.0, top: 5),
+                          child: InkWell(
+                              onTap: () {},
+                              child:  TicketCard(
+                                ticketModel: tickets[index],
+                              )));
+                    }));
+          },
+          failure: (errorMessage) {
+            return Container(
+                height: Utils.displayHeight(context),
+                child: Text("Something Went Wrong"));
+            // Fluttertoast.showToast(
+            //   msg: errorMessage,
+            //   toastLength: Toast.LENGTH_LONG,
+            //   gravity: ToastGravity.BOTTOM,
+            //   timeInSecForIosWeb: 5,
+            //   backgroundColor: Colors.red,
+            //   textColor: Colors.white,
+            //   fontSize: 16.0,
+            // );
+          },
+        );
+      },
+    );
   }
 
 // support ticket
@@ -162,25 +197,53 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
 // open ticket
   Widget openTicket() {
-    return Container(
-        height: Utils.displayHeight(context),
-        // color: Colors.green,
-        child: ListView.builder(
-            //  controller: _ordersController,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15.0, right: 15.0, bottom: 10.0, top: 10),
-                  child: InkWell(onTap: () {}, child: const TicketCard()));
-            }));
+   return BlocBuilder<TicketListCubit, TicketListState>(
+      bloc: TicketListCubit()..fetchTicketLists(),
+      builder: (context, state) {
+        return state.maybeWhen(
+          orElse: () {
+            return Loader();
+          },
+          success: (tickets) {
+            return Container(
+                height: Utils.displayHeight(context),
+                child: ListView.builder(
+                    //  controller: _ordersController,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: 6,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15.0, right: 15.0, bottom: 0.0, top: 5),
+                          child: InkWell(
+                              onTap: () {},
+                              child:  TicketCard(
+                                ticketModel: tickets[index],
+                              )));
+                    }));
+          },
+          failure: (errorMessage) {
+            return Container(
+                height: Utils.displayHeight(context),
+                child: Text("Something Went Wrong"));
+            // Fluttertoast.showToast(
+            //   msg: errorMessage,
+            //   toastLength: Toast.LENGTH_LONG,
+            //   gravity: ToastGravity.BOTTOM,
+            //   timeInSecForIosWeb: 5,
+            //   backgroundColor: Colors.red,
+            //   textColor: Colors.white,
+            //   fontSize: 16.0,
+            // );
+          },
+        );
+      },
+    );
   }
 
-
-@override
+  @override
   void dispose() {
     _tabController.dispose(); // Dispose _tabController when no longer needed
     super.dispose();
@@ -287,7 +350,4 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   //     ),
   //   );
   // }
-
-
-
 }

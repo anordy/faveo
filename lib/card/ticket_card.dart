@@ -1,15 +1,15 @@
+import 'package:faveo/model/ticket_model.dart';
 import 'package:faveo/utils/colors.dart';
 import 'package:faveo/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class TicketCard extends StatelessWidget {
-  const TicketCard({
-    Key? key,
-  }) : super(key: key);
+  final Ticket ticketModel;
+  const TicketCard({super.key, required this.ticketModel});
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return  Column(
       children: [
         ListTile(
           leading: CircleAvatar(
@@ -17,21 +17,20 @@ class TicketCard extends StatelessWidget {
             backgroundColor: Colors.grey,
             child: CircleAvatar(
                 radius: 19,
-                backgroundImage: AssetImage("assets/icons/anordy.jpeg")),
+                backgroundImage: NetworkImage(ticketModel.profilePic)),
           ),
-          title: Text(
-            "Gozbert Stanslaus Fulla",
+          title: Text('${ticketModel.firstName} ${ticketModel.lastName}',
             style: TextStyle(fontSize: 16),
           ),
-          subtitle: Text("July 6,2024 06:01 PM"),
+          subtitle: Text(ticketModel.createdAt),
           trailing: Icon(Icons.arrow_drop_up_sharp),
         ),
         Padding(
-            padding: EdgeInsets.only(left: 0.0, right: 0.0),
-            child: Divider(
-              color: Colors.grey,
-            ),
+          padding: EdgeInsets.only(left: 0.0, right: 0.0),
+          child: Divider(
+            color: Colors.grey,
           ),
+        ),
       ],
     );
   }

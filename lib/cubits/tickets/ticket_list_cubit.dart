@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:faveo/bloc/repositories/inbox_repository.dart';
 import 'package:faveo/bloc/repositories/ticket_repository.dart';
 import 'package:faveo/model/ticket_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

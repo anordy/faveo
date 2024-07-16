@@ -27,7 +27,6 @@ class AuthRepository {
         'phone_number': response['user_id']['phone_number'],
         'token': response['token'],
       });
-      print(user);
 
       prefs.setString('user', user);
 
@@ -38,7 +37,7 @@ class AuthRepository {
         throw e.response!.data['message'];
       } else {
         var error = DioException.fromDioError(e);
-         print("errror ===========");
+       
       print(e);
         throw error.errorMessage;
       }

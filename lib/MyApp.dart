@@ -4,6 +4,8 @@ import 'package:faveo/bloc/auth/cubit/auth_cubit.dart';
 import 'package:faveo/bloc/auth/login/cubit/login_cubit.dart';
 import 'package:faveo/bloc/settings/cubit/language_cubit.dart';
 import 'package:faveo/bloc/settings/helpers/app_language.dart';
+import 'package:faveo/cubits/inbox/inbox_list_cubit.dart';
+import 'package:faveo/cubits/tickets/ticket_list_cubit.dart';
 import 'package:faveo/pages/Auth/login_screen.dart';
 import 'package:faveo/pages/home_page.dart';
 import 'package:faveo/utils/custom_theme.dart';
@@ -42,7 +44,12 @@ class _MyAppState extends State<MyApp> {
             BlocProvider(
               create: (context) => AuthCubit(),
             ),
-            
+             BlocProvider(
+              create: (context) => TicketListCubit(),
+            ),
+            BlocProvider(
+              create: (context) => InboxListCubit(),
+            ),
           ],
           child: BlocBuilder<LanguageCubit, LanguageState>(
             builder: (context, state) {

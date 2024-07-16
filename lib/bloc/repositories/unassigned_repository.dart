@@ -1,38 +1,34 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:faveo/model/ticket_model.dart';
+import 'package:faveo/model/unassigned_model.dart';
 import 'package:faveo/network/auth_header.dart';
 import 'package:faveo/network/dio_client.dart';
 import 'package:faveo/network/dio_exception.dart';
 import 'package:faveo/network/endpoints.dart';
-import 'package:flutter/material.dart';
-import 'package:oktoast/oktoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class TicketRepository {
+class UnassignedRepository {
   get context => null;
 
   /**
-   * Fetch all Tickets
+   * Fetch all Unassigneds
    */
 
-  Future<List<Ticket>> fetchOpenTickets() async {
+  Future<List<Unassigned>> fetch() async {
     try {
       final headers = await ApiHeader().authHeader();
       final response = await DioClient.instance.get(
-        openTicketsED,
+        unassignedED,
         options: Options(headers: headers),
       );
-      final List<Ticket> loadedTicketList = [];
+      final List<Unassigned> loadedUnassignedList = [];
 
       response['data'].forEach((value) {
-        loadedTicketList.add(Ticket.fromJson(value));
+        loadedUnassignedList.add(Unassigned.fromJson(value));
       });
-      return loadedTicketList.toList();
+      return loadedUnassignedList.toList();
     } on DioError catch (e) {
-      print("========== error inbox =========");
+      print("========== error unassignned =========");
       print(e);
       print("=======================");
       var error = DioException.fromDioError(e);
@@ -41,18 +37,18 @@ class TicketRepository {
   }
 
 /**
- * Fetch Ticket
+ * Fetch Unassigned
  */
 
-  // Future<Ticket> fetchTicket(String id) async {
+  // Future<Unassigned> fetchUnassigned(String id) async {
   //   try {
   //     final headers = await ApiHeader().authHeader();
   //     final response = await DioClient.instance.get(
-  //       '$TicketDetailED$id',
+  //       '$UnassignedDetailED$id',
   //       options: Options(headers: headers),
   //     );
-  //     final TicketDetail = TicketDetail.fromJson(response['data']);
-  //     return TicketDetail;
+  //     final UnassignedDetail = UnassignedDetail.fromJson(response['data']);
+  //     return UnassignedDetail;
   //   } on DioError catch (e) {
   //     if (e.response != null) {
   //       throw e.response!.data['message'];

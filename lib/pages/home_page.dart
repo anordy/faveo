@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage>
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
-                    itemCount: 6,
+                    itemCount: tickets.length,
                     itemBuilder: (context, index) {
                       return Padding(
                           padding: const EdgeInsets.only(
@@ -197,7 +197,8 @@ class _HomePageState extends State<HomePage>
 
 // open ticket
   Widget openTicket() {
-   return BlocBuilder<TicketListCubit, TicketListState>(
+   return 
+   BlocBuilder<TicketListCubit, TicketListState>(
       bloc: TicketListCubit()..fetchTicketLists(),
       builder: (context, state) {
         return state.maybeWhen(
@@ -212,7 +213,7 @@ class _HomePageState extends State<HomePage>
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
-                    itemCount: 6,
+                    itemCount: tickets.length,
                     itemBuilder: (context, index) {
                       return Padding(
                           padding: const EdgeInsets.only(

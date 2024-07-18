@@ -2,6 +2,7 @@
 
 // Authentications
 const String loginED = '/authenticate';
+const String registerED = '/helpdesk/register';
 
 // Tickets API
 const String openTicketsED = '/helpdesk/open';

@@ -32,13 +32,51 @@ class AuthRepository {
 
       return user;
     } on DioError catch (e) {
-     
       if (e.response != null) {
         throw e.response!.data['message'];
       } else {
         var error = DioException.fromDioError(e);
-       
-      print(e);
+
+        print(e);
+        throw error.errorMessage;
+      }
+    }
+  }
+
+  // register
+  Future<dynamic> signup(dynamic data) async {
+    try {
+      final response = await DioClient.instance.post(
+        registerED,
+        data: data,
+        options: Options(headers: {'Accept': 'application/json'}),
+      );
+
+      print("============= singup =============");
+      print(response);
+      print("===================================");
+      // save the user data to shared preferences
+      // final prefs = await SharedPreferences.getInstance();
+      // final user = json.encode({
+      //   'username': response['user_id']['user_name'],
+      //   'firstname': response['user_id']['first_name'],
+      //   'lastname': response['user_id']['last_name'],
+      //   'email': response['user_id']['email'],
+      //   'profile': response['user_id']['profile_pic'],
+      //   'phone_number': response['user_id']['phone_number'],
+      //   'token': response['token'],
+      // });
+
+      // prefs.setString('user', user);
+
+      return response;
+    } on DioError catch (e) {
+      if (e.response != null) {
+        throw e.response!.data['message'];
+      } else {
+        var error = DioException.fromDioError(e);
+
+        print(e);
         throw error.errorMessage;
       }
     }

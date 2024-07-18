@@ -24,8 +24,8 @@ class InboxPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
             height: Utils.displayHeight(context),
-            child: BlocBuilder<TicketListCubit, TicketListState>(
-              bloc: TicketListCubit()..fetchTicketLists(),
+            child: BlocBuilder<InboxListCubit, InboxListState>(
+              bloc: InboxListCubit()..fetch(),
               builder: (context, state) {
                 return state.maybeWhen(
                   orElse: () {
@@ -51,7 +51,7 @@ class InboxPage extends StatelessWidget {
                                   child: InkWell(
                                       onTap: () {},
                                       child: InboxCard(
-                                        inboxModel: inboxs[index],
+                                        inboxModel: inboxs[index]
                                       )));
                             }));
                   },

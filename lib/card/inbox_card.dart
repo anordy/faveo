@@ -5,7 +5,7 @@ import 'package:faveo/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class InboxCard extends StatelessWidget {
-  final Ticket inboxModel;
+  final Inbox inboxModel;
   const InboxCard({super.key, required this.inboxModel});
 
   @override
@@ -14,15 +14,15 @@ class InboxCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
-            leading:   CircleAvatar(
+            leading: CircleAvatar(
               radius: 10,
               backgroundColor: Colors.grey,
               child: CircleAvatar(
                   radius: 19,
-                  backgroundImage: NetworkImage(this.inboxModel.profilePic)),
+                  backgroundImage: NetworkImage('${inboxModel.profilePic}')),
             ),
-            title:   Text(
-              '${inboxModel.firstName} .' '. ${inboxModel.lastName}',
+            title: Text(
+              '${inboxModel.firstName} ${inboxModel.lastName}',
               style: const TextStyle(fontSize: 16),
             ),
             trailing: OutlinedButton(
@@ -30,20 +30,30 @@ class InboxCard extends StatelessWidget {
                     side: MaterialStateProperty.all<BorderSide>(
                         const BorderSide(color: Colors.red))),
                 onPressed: () {},
-                child: const Text(
-                  'Overdue',
-                  style: TextStyle(color: Colors.red),
+                child: Text(
+                  '${inboxModel.ticketStatusName}',
+                  style: const TextStyle(color: Colors.red),
                 ))),
-          Padding(
-          padding: const EdgeInsets.only(left: 15.0),
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0, right: 10.0),
           child: Row(
             children: [
               const Icon(Icons.sports_basketball),
               const SizedBox(
                 width: 10,
               ),
-              Text(inboxModel.helpTopicName,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              Expanded(
+                child: RichText(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  text: TextSpan(
+                    text: '${inboxModel.title}',
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
               )
             ],
           ),
@@ -51,23 +61,23 @@ class InboxCard extends StatelessWidget {
         const SizedBox(
           height: 5,
         ),
-          Padding(
-            padding: EdgeInsets.only(left: 15.0),
+        Padding(
+            padding: const EdgeInsets.only(left: 15.0),
             child: Text(
-              inboxModel.ticketNumber,
-              style: TextStyle(
+              '${this.inboxModel.ticketNumber}',
+              style: const TextStyle(
                 fontSize: 14,
               ),
             )),
         const SizedBox(
           height: 5,
         ),
-          Padding(
+        Padding(
           padding: const EdgeInsets.only(left: 15.0),
           child: Row(
             children: [
               Text(
-                inboxModel.createdAt,
+                '${inboxModel.overdueDate}',
                 style: const TextStyle(fontSize: 14),
               ),
               const SizedBox(
@@ -89,7 +99,7 @@ class InboxCard extends StatelessWidget {
                 height: 35,
                 width: Utils.displayWidth(context) * 0.28,
                 decoration: BoxDecoration(
-                    color: Colors.grey[400],
+                    color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -104,9 +114,9 @@ class InboxCard extends StatelessWidget {
                     ),
                     RichText(
                       overflow: TextOverflow.clip,
-                      text:  const TextSpan(
-                        text: "tempo",
-                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      text: TextSpan(
+                        text: "${inboxModel.priotityName}",
+                        style: const TextStyle(fontSize: 14, color: Colors.black),
                       ),
                     )
                   ],
@@ -116,7 +126,7 @@ class InboxCard extends StatelessWidget {
                 height: 35,
                 width: Utils.displayWidth(context) * 0.28,
                 decoration: BoxDecoration(
-                    color: Colors.grey[400],
+                    color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -132,9 +142,9 @@ class InboxCard extends StatelessWidget {
                     RichText(
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      text: const TextSpan(
-                        text: 'Android',
-                        style: TextStyle(fontSize: 14, color: Colors.black),
+                      text: TextSpan(
+                        text: '${inboxModel.slaPlanName}',
+                        style: const TextStyle(fontSize: 14, color: Colors.black),
                       ),
                     )
                   ],
@@ -144,14 +154,14 @@ class InboxCard extends StatelessWidget {
                 height: 35,
                 width: Utils.displayWidth(context) * 0.28,
                 decoration: BoxDecoration(
-                    color: Colors.grey[400],
+                    color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(
-                      Icons.person,
-                      size: 10,
+                      Icons.person_2_outlined,
+                      size: 15,
                       color: Colors.black,
                     ),
                     const SizedBox(
@@ -174,9 +184,9 @@ class InboxCard extends StatelessWidget {
         const SizedBox(
           height: 5,
         ),
-        const Divider(
+         Divider(
           height: 5,
-          color: Colors.grey,
+          color: Colors.grey[200],
         )
       ],
     );

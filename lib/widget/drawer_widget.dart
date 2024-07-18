@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
-
 import 'package:faveo/bloc/auth/cubit/auth_cubit.dart';
 import 'package:faveo/pages/Auth/login_screen.dart';
 import 'package:faveo/pages/profile_screen.dart';
@@ -9,12 +7,13 @@ import 'package:faveo/pages/ticket/inbox_page.dart';
 import 'package:faveo/pages/ticket/mytickets_page.dart';
 import 'package:faveo/pages/ticket/mytrash_page.dart';
 import 'package:faveo/pages/ticket/unassigned_page.dart';
-import 'package:faveo/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class DrawerWidget extends StatefulWidget {
+  const DrawerWidget({super.key});
+
   @override
   State<DrawerWidget> createState() => _DrawerWidgetState();
 }
@@ -250,7 +249,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
            Padding(
             padding: const EdgeInsets.only(left: 15.0),
-            child: TextButton(child: const Text("LOGOUT",style: TextStyle(color: Colors.black),), onPressed: () {
+            child: TextButton(child: const Text("Logout",style: TextStyle(color: Colors.black),), onPressed: () {
                 BlocProvider.of<AuthCubit>(context).logout();
               const LoginScreen().launch(context);
             },),

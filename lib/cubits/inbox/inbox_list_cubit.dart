@@ -10,7 +10,7 @@ part 'inbox_list_cubit.freezed.dart';
 class InboxListCubit extends Cubit<InboxListState> {
   InboxListCubit() : super(const InboxListState.initial());
 
-  void fetchInboxLists() async {
+  void fetch() async {
     try {
       emit(const InboxListState.loading());
       final response = await InboxRepository().fetchInbox();

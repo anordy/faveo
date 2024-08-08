@@ -2,6 +2,7 @@ import 'package:faveo/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '../../utils/colors.dart';
 
@@ -144,15 +145,40 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
                   hint: Text('Select'),
                   items: const [
                     DropdownMenuItem<String>(
-                      value: "January",
+                      value: "WEB",
                       child: Text(
-                        "Male",
+                        "web",
                       ),
                     ),
                     DropdownMenuItem<String>(
-                        value: "February",
+                        value: "Email",
                         child: Text(
-                          "Female",
+                          "Email",
+                        )),
+                         DropdownMenuItem<String>(
+                        value: "Agent",
+                        child: Text(
+                          "Agent",
+                        )),
+                         DropdownMenuItem<String>(
+                        value: "Facebook",
+                        child: Text(
+                          "Facebook",
+                        )),
+                         DropdownMenuItem<String>(
+                        value: "Twitter",
+                        child: Text(
+                          "Twitter",
+                        )),
+                         DropdownMenuItem<String>(
+                        value: "Call",
+                        child: Text(
+                          "Call",
+                        )),
+                         DropdownMenuItem<String>(
+                        value: "Chat",
+                        child: Text(
+                          "Chat",
                         )),
                   ],
                   onChanged: (value) async {
@@ -192,15 +218,15 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
                   hint: Text('Select'),
                   items: const [
                     DropdownMenuItem<String>(
-                      value: "",
+                      value: "UCS Support",
                       child: Text(
-                        "Male",
+                        "UCS Support",
                       ),
                     ),
                     DropdownMenuItem<String>(
-                        value: "February",
+                        value: "DHIS2 Support",
                         child: Text(
-                          "Female",
+                          "DHIS2 Support",
                         )),
                   ],
                   onChanged: (value) async {
@@ -240,15 +266,15 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
                   hint: Text('Select'),
                   items: const [
                     DropdownMenuItem<String>(
-                      value: "January",
+                      value: "UCS Support",
                       child: Text(
-                        "Male",
+                        "UCS Support",
                       ),
                     ),
                     DropdownMenuItem<String>(
-                        value: "February",
+                        value: "DHIS2 Support",
                         child: Text(
-                          "Female",
+                          "DHIS2 Support",
                         )),
                   ],
                   onChanged: (value) async {
@@ -288,15 +314,26 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
                   hint: Text('Select'),
                   items: const [
                     DropdownMenuItem<String>(
-                      value: "January",
+                      value: "create-ticket",
                       child: Text(
-                        "Male",
+                        "Create Ticket",
                       ),
                     ),
                     DropdownMenuItem<String>(
-                        value: "February",
+                        value: "create-ticket-agent",
                         child: Text(
-                          "Female",
+                          "Create Ticket Agent",
+                        )),
+                        DropdownMenuItem<String>(
+                        value: "close-ticket",
+                        child: Text(
+                          "Close Ticket",
+                        )),
+
+                        DropdownMenuItem<String>(
+                        value: "reset-password",
+                        child: Text(
+                          "Reset Password",
                         )),
                   ],
                   onChanged: (value) async {
@@ -343,11 +380,20 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
                     minWidth: Utils.displayWidth(context),
                     color: AppColor.button,
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const CreateTicketScreen()));
+                      Fluttertoast.showToast(
+                            msg: "something went wrong",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 5,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
+                          );
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) =>
+                      //             const CreateTicketScreen()));
                     },
                     child: const Text(
                       "Submit",

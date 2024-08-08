@@ -58,24 +58,34 @@ class _LoginScreenState extends State<LoginScreen> {
           width: Utils.displayWidth(context),
           decoration: BoxDecoration(color: AppColor.base),
           child: Padding(
-            padding: const EdgeInsets.only(top: 120.0, left: 20.0, right: 20.0),
+            padding: const EdgeInsets.only(top: 80.0, left: 20.0, right: 20.0),
             child: Form(
               key: _formKey,
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                    Image.asset('assets/images/umoja.jpeg',height: 80,width: 100,),
+               SizedBox(height: 10.0,),
                 const Text(
-                  "Sign in",
+                  "Ministry Of Health",
                   style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontSize: 30),
+                      fontSize: 25),
+                ),
+                 SizedBox(height: 2.0,),
+                const Text(
+                  "Faveo",
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25),
                 ),
                 SizedBox(
                   height: Utils.displayHeight(context) * 0.06,
                 ),
-                Align(
+                const Align(
                     alignment: Alignment.topLeft,
-                    child: const Text(
+                    child: Text(
                       "Email",
                       style: TextStyle(fontSize: 18, color: Colors.black),
                     )),
@@ -132,9 +142,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: Utils.displayHeight(context) * 0.03,
                 ),
-                Align(
+                const Align(
                     alignment: Alignment.topLeft,
-                    child: const Text(
+                    child: Text(
                       "Password",
                       style: TextStyle(fontSize: 18, color: Colors.black),
                     )),
@@ -273,55 +283,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(
-                  height: 10.0,
+                  height: 50.0,
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const Center(
-                        child: Text(
-                          "Don't have Account?",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Please",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(width: 5),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignupScreen()));
-                            },
-                            child: Text(
-                              "Signup",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.button),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                )
+
+  
+                const Text(
+                  "Powered By",
+                  style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.normal,fontStyle: FontStyle.italic,
+                      fontSize: 14),
+                ),
+                    Image.asset('assets/images/entersoft.jpeg',height: 100,width: 100,),
               ]),
             ),
           ),
